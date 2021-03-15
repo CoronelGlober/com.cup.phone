@@ -12,6 +12,10 @@ kapt {
 android {
     compileSdkVersion 30
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.cup.phone.android"
         minSdkVersion 24
