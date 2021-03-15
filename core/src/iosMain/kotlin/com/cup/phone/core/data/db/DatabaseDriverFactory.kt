@@ -7,8 +7,4 @@ actual class DatabaseDriverFactory {
     actual fun createDriver(): SqlDriver {
         return NativeSqliteDriver(MessagesDb.Schema, "messages.db")
     }
-
-    actual fun createMessagesDb(): MessagesDb {
-       return MessagesDb(createDriver())
-    }
 }

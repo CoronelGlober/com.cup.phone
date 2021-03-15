@@ -42,6 +42,18 @@ android {
 }
 def epoxyVersion = "4.4.2"
 
+
+repositories {
+    maven {
+        name = "github"
+        url = uri("https://maven.pkg.github.com/CoronelGlober/com.cup.phone")
+        credentials {
+            username = "CoronelGlober"
+            password = "7de69faa0e9766856c670a1a67dfe071fd0dccfb"
+        }
+    }
+}
+
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -49,14 +61,15 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation project(path: ':core')
+    //implementation project(path: ':core')
+    implementation("com.cup.phone:core-android-debug:0.6.7")
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9-native-mt-2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9-native-mt-2"
 
 
     implementation "com.airbnb.android:epoxy:$epoxyVersion"

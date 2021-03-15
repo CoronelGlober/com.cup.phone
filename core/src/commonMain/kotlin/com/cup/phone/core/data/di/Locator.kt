@@ -6,6 +6,7 @@ import com.cup.phone.core.data.db.DatabaseDriverFactory
 import com.cup.phone.core.data.db.MessagesDb
 import com.cup.phone.core.data.repository.MessagesRepositoryImpl
 import com.cup.phone.core.domain.repository.MessagesRepository
+import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
 
 object Locator {
@@ -17,8 +18,9 @@ object Locator {
     private lateinit var messagesClient: CupPhoneClient
 
 
+    @OptIn(InternalAPI::class)
     fun setUp(databaseDriverFactory: DatabaseDriverFactory) {
-        messagesDb = databaseDriverFactory.createMessagesDb()
+        messagesDb = MessagesDb(databaseDriverFactory.createDriver())
         repository = MessagesRepositoryImpl(messagesDb)
         messagesClient = CupPhoneClientImpl(Dispatchers.Default, repository, SERVER, PORT)
     }

@@ -9,7 +9,4 @@ actual class DatabaseDriverFactory(private val context: Context) {
         return AndroidSqliteDriver(MessagesDb.Schema, context, "messages.db")
     }
 
-    actual fun createMessagesDb(): MessagesDb {
-      return MessagesDb(createDriver())
-    }
 }

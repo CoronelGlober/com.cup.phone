@@ -9,9 +9,11 @@ import io.ktor.utils.io.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import io.ktor.network.selector.*
+import io.ktor.util.*
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.*
 
+@InternalAPI
 class CupPhoneClientImpl(
     private val dispatcher: CoroutineDispatcher,
     private val messagesRepository: MessagesRepository, address: String, port: Int
@@ -24,9 +26,10 @@ class CupPhoneClientImpl(
     var output: ByteWriteChannel? = null
     lateinit var currentJob: Job
 
+    @InternalAPI
     override fun setupServer(address: String, port: Int) {
         currentJob = GlobalScope.launch(dispatcher) {
-            val socket = aSocket(ActorSelectorManager(dispatcher)).tcp()
+            val socket = aSocket(SelectorManager(dispatcher)).tcp()
                 .connect(NetworkAddress(address, port))
             input = socket.openReadChannel()
             output = socket.openWriteChannel(autoFlush = true)
