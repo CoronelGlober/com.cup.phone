@@ -30,6 +30,6 @@ class MessagesRepositoryImpl(private val messagesDb: MessagesDb) : MessagesRepos
         userColor: String,
         message: String
     ): Message {
-        return Message(userName, userColor, message)
+        return Message(timestamp,userName, userColor, message)
     }
 }

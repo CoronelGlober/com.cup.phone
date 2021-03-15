@@ -13,7 +13,7 @@ val ktor_version = "1.5.2"
 
 
 group = "com.cup.phone"
-version = "0.6.7"
+version = "0.7.1"
 
 
 kotlin {
