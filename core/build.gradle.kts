@@ -103,7 +103,7 @@ publishing {
             url = uri("https://maven.pkg.github.com/CoronelGlober/com.cup.phone")
             credentials {
                 username = "CoronelGlober"
-                password = "7de69faa0e9766856c670a1a67dfe071fd0dccfb"
+                password = "XXX7de69faa0e9766856c6XXX70a1a67dfe071fd0dccfbXXX"
             }
         }
     }
