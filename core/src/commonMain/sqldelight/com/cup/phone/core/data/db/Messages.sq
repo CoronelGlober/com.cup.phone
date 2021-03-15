@@ -1,0 +1,16 @@
+CREATE TABLE messages (
+  key INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  timestamp INTEGER NOT NULL,
+  userName TEXT NOT NULL,
+  userColor TEXT NOT NULL,
+  message TEXT NOT NULL
+);
+
+insertMessage:
+INSERT INTO messages(timestamp, userName, userColor, message) VALUES (?, ?, ?, ?);
+
+selectAll:
+SELECT * FROM messages ORDER BY timestamp DESC;
+
+deleteAll:
+DELETE FROM messages;

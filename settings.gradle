@@ -1,0 +1,3 @@
+rootProject.name = "Cup Phone Android"
+include ':app'
+include ':core'
