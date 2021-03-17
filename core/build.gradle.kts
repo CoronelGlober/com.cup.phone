@@ -53,6 +53,7 @@ kotlin {
                 implementation ("io.ktor:ktor-client-cio:$ktor_version")
                 implementation("io.ktor:ktor-client-json:$ktor_version")
                 implementation("io.ktor:ktor-client-serialization:$ktor_version")
+                implementation ("co.touchlab:stately-common:1.1.4")
             }
         }
         val androidMain by getting {
