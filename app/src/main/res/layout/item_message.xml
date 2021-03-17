@@ -26,7 +26,7 @@
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#3F51B5"
+                android:textColor="#000"
                 tools:text="User Name" />
 
             <TextView
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_height="wrap_content"
-                android:textColor="#2196F3"
+                android:textColor="#000"
                 tools:text="12:00:00" />
 
             <TextView

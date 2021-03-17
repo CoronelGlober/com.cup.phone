@@ -9,7 +9,8 @@ plugins {
 }
 
 val sql_delight_version = "1.4.4"
-val ktor_version = "1.5.2"
+val ktor_version = "1.4.1"
+val serializationVersion = "1.0.1"
 
 
 group = "com.cup.phone"
@@ -17,22 +18,37 @@ version = "0.7.1"
 
 
 kotlin {
+    val iOSTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
+        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
+            ::iosArm64
+        else
+            ::iosX64
 
-    val onPhone = System.getenv("SDK_NAME")?.startsWith("iphoneos") ?: false
-    if (onPhone) {
-        iosArm64("ios")
-    } else {
-        iosX64("ios")
+    iOSTarget("ios") {
+        binaries {
+            framework {
+                baseName = "core"
+            }
+        }
     }
 
     android{
         publishLibraryVariants("release","debug")
     }
 
+    ios {
+        binaries {
+            framework {
+                baseName = "core"
+            }
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")  {
                     version {
                         strictly("1.3.9-native-mt-2")
@@ -74,6 +90,21 @@ android {
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
+
+val packForXcode by tasks.creating(Sync::class) {
+    group = "build"
+    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
+    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
+    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
+    val framework =
+        kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
+    inputs.property("mode", mode)
+    dependsOn(framework.linkTask)
+    val targetDir = File(buildDir, "xcode-frameworks")
+    from({ framework.outputDirectory })
+    into(targetDir)
+}
+tasks.getByName("build").dependsOn(packForXcode)
 
 sqldelight {
     database("MessagesDb") {

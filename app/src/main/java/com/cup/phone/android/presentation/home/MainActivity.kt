@@ -13,14 +13,16 @@ import com.airbnb.epoxy.EpoxyRecyclerView
 import com.cup.phone.android.R
 import com.cup.phone.android.databinding.ActivityMainBinding
 import com.cup.phone.core.data.di.Locator
+import com.cup.phone.core.domain.entities.Message
 import com.cup.phone.core.presentation.MessagesPresenter
+import com.cup.phone.core.presentation.MessagesView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MessagesView {
 
     lateinit var messagesPresenter: MessagesPresenter
 
@@ -32,29 +34,28 @@ class MainActivity : AppCompatActivity() {
             setContentView(root)
         }
         content.messagesRecycler.layoutManager = LinearLayoutManager(this, VERTICAL, true)
-        messagesPresenter = MessagesPresenter(Locator.getRepository(), Locator.getClient())
-
-        lifecycleScope.launchWhenResumed {
-            messagesPresenter.getMessages()
-                .catch { println(it.message) }
-                .collect { elements ->
-                    withContext(Dispatchers.Main) {
-                        content.messagesRecycler.setModels(
-                            elements.map {
-                                MessageModel_()
-                                    .id(it.message)
-                                    .messageItem(it)
-                            }
-                        )
-                        content.messagesRecycler.scrollToPosition(0);
-                    }
-                }
-        }
+        messagesPresenter = MessagesPresenter(Locator.getRepository(), Locator.getClient(), this)
+        messagesPresenter.startListeningForMessages(lifecycleScope)
     }
 
 
     fun sendMessage(view: View) {
         messagesPresenter.sendMessage(content.messageField.text.toString())
+    }
+
+    override fun showMessages(messages: List<Message>) {
+        content.messagesRecycler.withModels {
+            messages.map {
+                message {
+                    id(it.message)
+                    messageItem(it)
+                }
+            }
+        }
+        content.messagesRecycler.scrollToPosition(0);
+    }
+
+    override fun clearMessageInput() {
         content.messageField.text.clear()
     }
 }
