@@ -66,6 +66,7 @@ kotlin {
             dependencies {
                 implementation("com.squareup.sqldelight:native-driver:$sql_delight_version")
                 implementation("io.ktor:ktor-client-ios:$ktor_version")
+                implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:1.1.1")
             }
         }
     }

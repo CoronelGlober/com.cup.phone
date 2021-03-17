@@ -9,9 +9,9 @@ import UIKit
 import core
 
 class ViewController: UIViewController {
+    @IBOutlet weak var lblMessage: UILabel!
     var messagesPresenter: MessagesPresenter?
     var messages: [Message] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -19,18 +19,21 @@ class ViewController: UIViewController {
     }
 
     func setup() {
-        Locator().setUp(databaseDriverFactory: DatabaseDriverFactory())
+        let locator = LocatorHelper()
+        locator.setUp(databaseDriverFactory: DatabaseDriverFactory())
         messagesPresenter = MessagesPresenter(
-            repository: Locator().getRepository(),
-            messagesClient: Locator().getClient()
+            repository: locator.getRepository(),
+            messagesClient: locator.getClient()
         )
         loadMessages()
+        sendMessage()
     }
 
     func loadMessages() {
         guard let mPresenter = messagesPresenter else { return }
         mPresenter.getMessagesHelper().watch { [weak self] (messages) in
             if let messages = messages as? [Message] {
+                self?.lblMessage.text = messages.first?.message
                 self?.messages = messages
             } else {
                 self?.messages = []
@@ -38,7 +41,10 @@ class ViewController: UIViewController {
             
         }
     }
-
-
+    
+    func sendMessage() {
+        guard let mPresenter = messagesPresenter else { return }
+        mPresenter.sendMessage(message: "testing")
+    }
 }
 

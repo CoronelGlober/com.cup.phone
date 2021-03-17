@@ -1,5 +1,6 @@
 package com.cup.phone.core.data.datasource.impl
 
+import com.cup.phone.core.ApplicationDispatcher
 import com.cup.phone.core.data.datasource.remote.CupPhoneClient
 import com.cup.phone.core.data.dto.RawMessage
 import com.cup.phone.core.domain.repository.MessagesRepository
@@ -25,35 +26,34 @@ class CupPhoneClientImpl(
         setupServer(address, port)
     }
 //    var input: ByteReadChannel? = null
-//    var output: ByteWriteChannel? = null
+    var output: ByteWriteChannel? = null
     lateinit var currentJob: Job
 
     @DangerousInternalIoApi
     @InternalAPI
     override fun setupServer(address: String, port: Int) {
-        currentJob = GlobalScope.launch(dispatcher) {
-            val socket = aSocket(SelectorManager(dispatcher)).tcp()
+        currentJob = GlobalScope.launch(ApplicationDispatcher) {
+            val socket = aSocket(SelectorManager(ApplicationDispatcher)).tcp()
                 .connect(NetworkAddress(address, port))
             val input = socket.openReadChannel()
-            val output = socket.openWriteChannel(autoFlush = true)
+            output = socket.openWriteChannel(autoFlush = true)
             listenForMessages(input)
         }
     }
 
     override fun sendMessage(message: String) {
-        /*
-        GlobalScope.launch(dispatcher) {
+        GlobalScope.launch(ApplicationDispatcher) {
             val messageToSend = (message + "\n").toByteArray()
-            output.writeAvailable(
+            output?.writeAvailable(
                 messageToSend,
                 0,
                 messageToSend.size
             )
-        }*/
+        }
     }
 
     override fun listenForMessages(input: ByteReadChannel) {
-        GlobalScope.launch(dispatcher) {
+        GlobalScope.launch(ApplicationDispatcher) {
             while (!currentJob.isCancelled) {
                 input.readUTF8Line(Int.MAX_VALUE)?.let { message ->
                     val rawMessage = Json.decodeFromString<RawMessage>(message)
