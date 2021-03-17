@@ -22,3 +22,6 @@ core/build
 contents.xcworkspacedata
 IDEWorkspaceChecks.plist
 UserInterfaceState.xcuserstate
+gradle/.idea
+.idea/codeStyles
+Breakpoints_v2.xcbkptlist
