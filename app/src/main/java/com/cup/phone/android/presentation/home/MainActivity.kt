@@ -11,6 +11,8 @@ import com.cup.phone.core.data.di.Locator
 import com.cup.phone.core.domain.entities.Message
 import com.cup.phone.core.presentation.MessagesPresenter
 import com.cup.phone.core.presentation.MessagesView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MessagesView {
 
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity(), MessagesView {
         }
         content.messagesRecycler.layoutManager = LinearLayoutManager(this, VERTICAL, true)
         messagesPresenter = MessagesPresenter(Locator.getRepository(), Locator.getClient(), this)
-        messagesPresenter.startListeningForMessages(lifecycleScope)
+        messagesPresenter.startListeningForMessages()
     }
 
 
@@ -34,15 +36,17 @@ class MainActivity : AppCompatActivity(), MessagesView {
     }
 
     override fun showMessages(messages: List<Message>) {
-        content.messagesRecycler.withModels {
-            messages.map {
-                message {
-                    id(it.message)
-                    messageItem(it)
+        lifecycleScope.launch(Dispatchers.Main) {
+            content.messagesRecycler.withModels {
+                messages.map {
+                    message {
+                        id(it.message)
+                        messageItem(it)
+                    }
                 }
             }
+            content.messagesRecycler.scrollToPosition(0);
         }
-        content.messagesRecycler.scrollToPosition(0);
     }
 
     override fun clearMessageInput() {

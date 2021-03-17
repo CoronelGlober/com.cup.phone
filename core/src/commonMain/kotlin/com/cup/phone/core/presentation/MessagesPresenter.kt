@@ -1,5 +1,6 @@
 package com.cup.phone.core.presentation
 
+import com.cup.phone.core.ApplicationDispatcher
 import com.cup.phone.core.data.datasource.remote.CupPhoneClient
 import com.cup.phone.core.domain.entities.Message
 import com.cup.phone.core.domain.repository.MessagesRepository
@@ -18,7 +19,7 @@ class MessagesPresenter(
 ) {
 
     fun startListeningForMessages() {
-        GlobalScope.launch {
+        GlobalScope.launch(ApplicationDispatcher) {
             repository.getMessages().collect {
                 view.showMessages(it)
             }

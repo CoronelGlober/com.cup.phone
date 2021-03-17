@@ -11,7 +11,8 @@ actual class DateFormatter {
     }
 
     actual fun parseDate(timestamp: Long): String {
-        val date = NSDate.dateWithTimeIntervalSince1970(timestamp as NSTimeInterval)
+        val time = timestamp.toDouble()
+        val date = NSDate.dateWithTimeIntervalSince1970(time as NSTimeInterval)
         val dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "hh:mm:ss a"
         return dateFormatter.stringFromDate(date)
