@@ -13,3 +13,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+core/.idea
+core/build/.transforms
+core/build/bin
+core/build/classes/kotlin/metadata
+core/build/intermediates
+core/build
+contents.xcworkspacedata
+IDEWorkspaceChecks.plist
+UserInterfaceState.xcuserstate
