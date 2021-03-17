@@ -23,7 +23,7 @@
                                     <constraint firstAttribute="height" constant="5" id="wdo-Bj-MNo"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mv8-mB-RpQ">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mv8-mB-RpQ">
                                 <rect key="frame" x="20" y="828" width="314" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -33,17 +33,30 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QS0-vm-eFe">
+                                <rect key="frame" x="147" y="361" width="117" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="maf-G6-5Mx" firstAttribute="leading" secondItem="mv8-mB-RpQ" secondAttribute="leading" id="1kh-nS-Hdd"/>
+                            <constraint firstItem="QS0-vm-eFe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="317" id="2aI-tV-CfV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="maf-G6-5Mx" secondAttribute="trailing" constant="80" id="5yI-4s-OhL"/>
                             <constraint firstAttribute="bottom" secondItem="maf-G6-5Mx" secondAttribute="bottom" constant="20" id="9Wa-db-xTe"/>
+                            <constraint firstItem="mv8-mB-RpQ" firstAttribute="top" secondItem="QS0-vm-eFe" secondAttribute="bottom" constant="446" id="KhK-bc-Af5"/>
                             <constraint firstItem="maf-G6-5Mx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="OMA-yA-apb"/>
+                            <constraint firstItem="QS0-vm-eFe" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="147" id="hv0-wQ-GDC"/>
                             <constraint firstItem="maf-G6-5Mx" firstAttribute="trailing" secondItem="mv8-mB-RpQ" secondAttribute="trailing" id="pwH-oc-UbZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QS0-vm-eFe" secondAttribute="trailing" constant="150" id="x6d-9p-kWP"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="lblMessage" destination="QS0-vm-eFe" id="jZI-5d-xpy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
