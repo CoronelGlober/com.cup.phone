@@ -4,6 +4,7 @@ import com.cup.phone.core.data.datasource.remote.CupPhoneClient
 import com.cup.phone.core.domain.entities.Message
 import com.cup.phone.core.domain.repository.MessagesRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,8 +17,8 @@ class MessagesPresenter(
     val view: MessagesView
 ) {
 
-    fun startListeningForMessages(coroutineScope: CoroutineScope) {
-        coroutineScope.launch {
+    fun startListeningForMessages() {
+        GlobalScope.launch {
             repository.getMessages().collect {
                 view.showMessages(it)
             }

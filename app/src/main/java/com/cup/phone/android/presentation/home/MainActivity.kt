@@ -1,26 +1,16 @@
 package com.cup.phone.android.presentation.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import com.airbnb.epoxy.EpoxyRecyclerView
-import com.cup.phone.android.R
 import com.cup.phone.android.databinding.ActivityMainBinding
 import com.cup.phone.core.data.di.Locator
 import com.cup.phone.core.domain.entities.Message
 import com.cup.phone.core.presentation.MessagesPresenter
 import com.cup.phone.core.presentation.MessagesView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity(), MessagesView {
 
