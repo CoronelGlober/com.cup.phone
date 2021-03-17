@@ -9,7 +9,7 @@ plugins {
 }
 
 val sql_delight_version = "1.4.4"
-val ktor_version = "1.5.2"
+val ktor_version = "1.4.1"
 
 
 group = "com.cup.phone"
@@ -28,11 +28,19 @@ kotlin {
     android{
         publishLibraryVariants("release","debug")
     }
+    ios {
+        binaries {
+            framework {
+                baseName = "core"
+            }
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")  {
                     version {
                         strictly("1.3.9-native-mt-2")
@@ -43,6 +51,8 @@ kotlin {
                 implementation("io.ktor:ktor-network:$ktor_version")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation ("io.ktor:ktor-client-cio:$ktor_version")
+                implementation("io.ktor:ktor-client-json:$ktor_version")
+                implementation("io.ktor:ktor-client-serialization:$ktor_version")
             }
         }
         val androidMain by getting {
@@ -62,6 +72,7 @@ kotlin {
 
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
 }
 
@@ -108,3 +119,18 @@ publishing {
         }
     }
 }
+
+val packForXcode by tasks.creating(Sync::class) {
+    group = "build"
+    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
+    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
+    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
+    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(
+        mode)
+    inputs.property("mode", mode)
+    dependsOn(framework.linkTask)
+    val targetDir = File(buildDir, "xcode-frameworks")
+    from({ framework.outputDirectory })
+    into(targetDir)
+}
+tasks.getByName("build").dependsOn(packForXcode)
